@@ -35,7 +35,7 @@ Go to their website and obtain the API_KEY for the correct product. For now only
 
 First clone into a local repository then do gem install
 
-### Step 2. Create a new new client and query away
+### Step 3. Create a new new client and query away
 
 ```ruby
 require 'mw_dictionary_api'
@@ -44,7 +44,7 @@ client = MWDictionaryAPI::Client.new(ENV['MW_SD4_API_KEY'])
 
 Here we assume you have exported the API_KEY into `MW_SD4_API_KEY` environment variable
 
-### Step 3. Create a cache so prevent hitting your API limit
+### Step 4. Create a cache so prevent hitting your API limit
 
 ```ruby
 result = client.search('one')
