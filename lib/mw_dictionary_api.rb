@@ -9,4 +9,7 @@ require 'mw_dictionary_api/memory_cache'
 module MWDictionaryAPI
   API_ENDPOINT = 'http://www.dictionaryapi.com/api/v1/references'
 
+  class ResponseException < Exception
+  end
+  
 end

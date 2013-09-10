@@ -4,7 +4,7 @@ require 'open-uri'
 module MWDictionaryAPI
   class Client
     
-    attr_reader :api_key, :api_type, :api_endpoint, :response_format
+    attr_accessor :api_key, :api_type, :api_endpoint, :response_format
 
     # search_cache is something that should have the following interface
     #   search_cache.find(term) -> the raw response for the given term
@@ -45,7 +45,12 @@ module MWDictionaryAPI
     end
 
     def fetch_response(term)
-      open(url_for(term)).read
+      result = open(url_for(term))
+      if result.status[0] != "200" or result.meta["content-type"] != response_format
+        raise ResponseException, result.read
+      else
+        result.read
+      end
     end
   end
 end

@@ -58,6 +58,15 @@ module MWDictionaryAPI
             end
           end.not_to raise_error
         end
+
+        describe "invalid responses" do
+          it "raises MWDictionaryAPI::ResponseException when api_key is incorrect" do
+            client.api_key = '123'
+            expect {
+              client.search('one')
+            }.to raise_error(ResponseException, "Invalid API key or reference name provided.")
+          end
+        end
       end
 
       describe "#search" do
@@ -98,7 +107,7 @@ module MWDictionaryAPI
           before do
             allow(client).to receive(:fetch_response).with("onet").and_return(File.open(fixture_path("onet.xml")).read)
           end
-          
+
           it "should return a list of suggestions if the word is invalid" do
             result = client.search("onet")
             expect(result.entries).to be_empty
