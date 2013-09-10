@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
     "lib/mw_dictionary_api/entry.rb",
     "lib/mw_dictionary_api/definition.rb"
   ]
-  # s.homepage    = 'http://rubygems.org/gems/m'
+  s.homepage    = 'https://github.com/gniquil/mw_dictionary_api'
   s.license       = 'MIT'
   s.add_runtime_dependency "nokogiri"
 end
