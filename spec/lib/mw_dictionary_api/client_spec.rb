@@ -114,6 +114,16 @@ module MWDictionaryAPI
             result = client.search("one", update_cache: true)
             result = client.search("one")
           end
+
+          it "should preserve previous cache if connection is lost when force refresh" do 
+            result = client.search("one")
+            expect(client.search_cache.find("one")).not_to be_empty
+            expect(client).to receive(:fetch_response).and_raise(SocketError)
+            expect {
+              result = client.search("one", update_cache: true)  
+            }.to raise_error(SocketError)
+            expect(client.search_cache.find("one")).not_to be_empty
+          end
         end
       end
     end

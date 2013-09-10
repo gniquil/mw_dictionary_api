@@ -18,6 +18,7 @@ module MWDictionaryAPI
       @api_type = api_type
       @response_format = response_format
       @api_endpoint = api_endpoint
+      @search_cache = MemoryCache
     end
 
     def url_for(word)
@@ -26,11 +27,16 @@ module MWDictionaryAPI
 
     def search(term, update_cache: false)
       if search_cache
-        search_cache.remove(term) if update_cache
-        response = search_cache.find(term)
-        unless response
+        if update_cache
           response = fetch_response(term)
+          search_cache.remove(term)
           search_cache.add(term, response)
+        else
+          response = search_cache.find(term)
+          unless response
+            response = fetch_response(term)
+            search_cache.add(term, response)
+          end
         end
       else
         response = fetch_response(term)

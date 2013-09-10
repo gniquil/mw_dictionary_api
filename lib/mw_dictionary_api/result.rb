@@ -29,5 +29,11 @@ module MWDictionaryAPI
       entries.group_by { |entry| entry.word }
     end
 
+    def to_hash
+      {
+        "searched_word" => searched_word,
+        "entries" => entries.map { |e| e.to_hash }
+      }
+    end
   end
 end

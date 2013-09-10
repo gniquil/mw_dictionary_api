@@ -59,5 +59,13 @@ module MWDictionaryAPI
       end
     end
 
+    describe "#to_hash" do
+      it "returns a hash" do
+        expect(result.to_hash).to eq({
+          "searched_word" => "one",
+          "entries" => result.entries.map { |e| e.to_hash }
+        })
+      end
+    end
   end
 end
