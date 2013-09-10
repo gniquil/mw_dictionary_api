@@ -10,6 +10,9 @@ module MWDictionaryAPI
     let(:one_another_entry_entity) { one_xml_doc.css("entry")[3] }
     let(:entry) { Entry.new(one_entry1_entity) }
     let(:one_another_entry) { Entry.new(one_another_entry_entity) }
+    let(:one_collegiate_xml_doc) { Nokogiri::XML(File.open(fixture_path('one_collegiate.xml')).read) }
+    let(:one_collegiate_entry) { Entry.new(one_collegiate_xml_doc.css("entry")[0])}
+
 
     describe "attributes" do
 
@@ -29,6 +32,9 @@ module MWDictionaryAPI
         expect(entry.definitions[4].sense_number).to eq "3b"
         expect(entry.definitions[5].sense_number).to eq "4"
         expect(entry.definitions[6].sense_number).to eq "5"
+
+        expect(one_collegiate_entry.definitions[4].sense_number).to eq "3b(1)"
+        expect(one_collegiate_entry.definitions[5].sense_number).to eq "3b(2)"
       end
 
       it "returns the verbal illustration" do

@@ -15,6 +15,8 @@ module MWDictionaryAPI
     let(:particularity_entry) { Entry.new(particularity_xml_doc.css("entry")[0]) }
     let(:octopus_xml_doc) { Nokogiri::XML(File.open(fixture_path('octopus.xml')).read) }
     let(:octopus_entry) { Entry.new(octopus_xml_doc.css("entry")[0]) }
+    let(:one_collegiate_xml_doc) { Nokogiri::XML(File.open(fixture_path('one_collegiate.xml')).read) }
+    let(:one_collegiate_entry) { Entry.new(one_collegiate_xml_doc.css("entry")[0])}
     
     describe "attributes" do
       
@@ -79,6 +81,10 @@ module MWDictionaryAPI
 
         it "show an non-empty list" do
           expect(entry.definitions.count).to eq 7
+        end
+
+        it "should not be confused by non dt/sn elements" do
+          expect(one_collegiate_entry.definitions.first.text).not_to eq "before 12th century"
         end
       end
 

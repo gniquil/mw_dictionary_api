@@ -44,7 +44,7 @@ module MWDictionaryAPI
           end
         else
           if previous_sn =~ /[a-z]+$/
-            previous_sn.gsub(/[a-z]+$/, "") + current_sn
+            previous_sn.gsub(/[a-z]+$/, "") + current_sn.gsub(" ", "")
           elsif previous_sn =~ /[a-z]+\(\d+\)$/
             previous_sn.gsub(/[a-z]+\(\d+\)$/, "") + current_sn
           else

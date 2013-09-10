@@ -53,15 +53,17 @@ module MWDictionaryAPI
       temp = []
 
       @xml_doc.css("def").children.each do |child|
-        temp << child
-        if child.name == "dt"
-          prev_sn = (definitions[-1]) ? definitions[-1].sense_number : nil
-          if temp.count == 2
-            definitions << Definition.new(dt: temp[1], sn: temp[0].content, prev_sn: prev_sn)
-          else
-            definitions << Definition.new(dt: temp[0], prev_sn: prev_sn)
+        if ["sn", "dt"].include? child.name
+          temp << child
+          if child.name == "dt"
+            prev_sn = (definitions[-1]) ? definitions[-1].sense_number : nil
+            if temp.count == 2
+              definitions << Definition.new(dt: temp[1], sn: temp[0].content, prev_sn: prev_sn)
+            else
+              definitions << Definition.new(dt: temp[0], prev_sn: prev_sn)
+            end
+            temp = []
           end
-          temp = []
         end
       end
 
