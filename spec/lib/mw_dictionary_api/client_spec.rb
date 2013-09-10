@@ -61,44 +61,12 @@ module MWDictionaryAPI
       end
 
       describe "#search" do
-        before do
-          allow(client).to receive(:fetch_response).with("one").and_return(File.open(fixture_path("one.xml")).read)
-        end
-
-        it "returns a result" do
-          result = client.search("one")
-          expect(result).to be_a(Result)
-        end
-
+        
         describe ".search with search_cache" do
-          class SearchCache
-
-            def self.find(term)
-              cache[term]
-            end
-
-            def self.add(term, result)
-              cache[term] = result
-            end
-
-            def self.remove(term)
-              cache.delete(term)
-            end
-
-            # following methods are optional
-            def self.clear
-              cache.clear
-            end
-
-            def self.cache
-              @cache ||= {}
-            end
-
-          end
-
+          
           before do
-            client.search_cache = SearchCache
             client.search_cache.clear
+            allow(client).to receive(:fetch_response).with("one").and_return(File.open(fixture_path("one.xml")).read)
           end
 
           it "should add the result into cache if not found in cache" do
@@ -123,6 +91,24 @@ module MWDictionaryAPI
               result = client.search("one", update_cache: true)  
             }.to raise_error(SocketError)
             expect(client.search_cache.find("one")).not_to be_empty
+          end
+        end
+
+        describe "handling invalid search" do
+          before do
+            allow(client).to receive(:fetch_response).with("onet").and_return(File.open(fixture_path("onet.xml")).read)
+          end
+          
+          it "should return a list of suggestions if the word is invalid" do
+            result = client.search("onet")
+            expect(result.entries).to be_empty
+            expect(result.suggestions.count).to be > 0
+          end
+
+          it "should return empty suggestions if the word is valid" do
+            result = client.search("one")
+            expect(result.entries).not_to be_empty
+            expect(result.suggestions).to be_empty
           end
         end
       end

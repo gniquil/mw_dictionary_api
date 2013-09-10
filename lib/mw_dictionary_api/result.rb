@@ -1,7 +1,7 @@
 module MWDictionaryAPI
   class Result
     
-    attr_reader :raw_response, :api_type, :searched_word, :entries
+    attr_reader :raw_response, :api_type, :searched_word, :entries, :suggestions
 
     def initialize(searched_word, raw_response, api_type)
       unless %W[collegiate sd4].include? api_type
@@ -13,6 +13,7 @@ module MWDictionaryAPI
       @api_type = api_type
 
       @entries = parse(raw_response, api_type)
+      @suggestions = parse_suggestions(raw_response, api_type)
     end
 
     def parse(raw_response, api_type)
@@ -23,6 +24,16 @@ module MWDictionaryAPI
         entries << Entry.new(xml_entry)
       end
       entries
+    end
+
+    def parse_suggestions(raw_response, api_type)
+      suggestions = []
+      xml_doc = Nokogiri::XML(raw_response)
+
+      xml_doc.css("suggestion").each do |suggestion_xml|
+        suggestions << suggestion_xml.content
+      end
+      suggestions
     end
 
     def entries_group_by_word
