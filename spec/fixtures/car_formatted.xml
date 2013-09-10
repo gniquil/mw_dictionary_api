@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<entry_list version="1.0">
+	<entry id="car">
+		<hw>car</hw>
+		<sound>
+			<wav>car00001.wav</wav>
+		</sound>
+		<pr>ˈkär</pr>
+		<fl>noun</fl>
+		<def>
+			<sn>1</sn>
+			<dt>:a vehicle (as a railroad coach or an automobile) that moves on wheels</dt>
+			<sn>2</sn>
+			<dt>:the compartment of an elevator</dt>
+			<sn>3</sn>
+			<dt>:the part of a balloon or an airship in which passengers or equipment are carried</dt>
+		</def>
+		<et>Medieval French 
+			<it>
+				carre,</it>from Latin 
+			<it>
+				carrus,</it>of Celtic origin</et>
+	</entry>
+	<entry id="car seat">
+		<hw>car seat</hw>
+		<fl>noun</fl>
+		<def>
+			<dt>:a portable seat for an infant or a small child that attaches to an automobile seat and holds the child safely</dt>
+		</def>
+	</entry>
+	<entry id="bumper car">
+		<hw>bumper car</hw>
+		<fl>noun</fl>
+		<def>
+			<dt>:a small electric car made to be driven around in an enclosure and to be bumped into others (as in an amusement park)</dt>
+		</def>
+	</entry>
+	<entry id="cable car">
+		<hw>cable car</hw>
+		<fl>noun</fl>
+		<def>
+			<dt>:a car moved on a railway by an endless cable or along an overhead cableway</dt>
+		</def>
+	</entry>
+	<entry id="dining car">
+		<hw>dining car</hw>
+		<fl>noun</fl>
+		<def>
+			<dt>:a railroad car in which meals are served</dt>
+		</def>
+	</entry>
+	<entry id="lounge car">
+		<hw>lounge car</hw>
+		<fl>noun</fl>
+		<def>
+			<dt>:a railroad passenger car with seats for lounging and facilities for serving refreshments</dt>
+		</def>
+	</entry>
+	<entry id="parlor car">
+		<hw>parlor car</hw>
+		<fl>noun</fl>
+		<def>
+			<dt>:an extra-fare railroad passenger car equipped with individual chairs and formerly used for day travel</dt>
+		</def>
+	</entry>
+	<entry id="prowl car">
+		<hw>prowl car</hw>
+		<fl>noun</fl>
+		<def>
+			<dt>:
+				<sx>
+					squad car</sx>
+			</dt>
+		</def>
+	</entry>
+	<entry id="radio car">
+		<hw>radio car</hw>
+		<fl>noun</fl>
+		<def>
+			<dt>:an automobile (as a police car) equipped with two-way radio communications</dt>
+		</def>
+	</entry>
+	<entry id="rent-a-car">
+		<hw>rent–a–car</hw>
+		<sound>
+			<wav>rentac01.wav</wav>
+		</sound>
+		<pr>ˈrent-ə-ˌkär</pr>
+		<fl>noun</fl>
+		<def>
+			<dt>:a rented car</dt>
+		</def>
+	</entry>
+</entry_list>

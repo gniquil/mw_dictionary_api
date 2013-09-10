@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<entry_list version="1.0">
+  <entry id="particularity">
+    <hw>par*tic*u*lar*i*ty</hw>
+    <sound>
+      <wav>partic19.wav</wav>
+    </sound>
+    <pr>-ˌtik-yə-ˈlar-ət-ē</pr>
+    <fl>noun</fl>
+    <in>
+      <il>plural</il>
+      <if>par*tic*u*lar*i*ties</if>
+    </in>
+    <def>
+      <sn>1 a</sn>
+      <dt>:a minute detail</dt>
+      <sn>b</sn>
+      <dt>:an individual characteristic :
+        <sx>
+          peculiarity</sx>
+      </dt>
+      <sn>2</sn>
+      <dt>:attentiveness to detail :
+        <sx>
+          exactness</sx>
+        <sx>care</sx>
+      </dt>
+    </def>
+  </entry>
+</entry_list>

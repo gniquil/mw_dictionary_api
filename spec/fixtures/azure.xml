@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<entry_list version="1.0">
+  <entry id="azure">
+    <hw>azure</hw>
+    <sound>
+      <wav>azure001.wav</wav>
+    </sound>
+    <pr>ˈazh-ər</pr>
+    <fl>noun</fl>
+    <def>
+      <dt>:the blue color of the clear sky</dt>
+    </def>
+    <et>Medieval French 
+      <it>
+        azeure,</it>derived from Arabic 
+      <it>
+        lāzaward</it>
+    </et>
+    <uro>
+      <ure>azure</ure>
+      <fl>adjective</fl>
+    </uro>
+  </entry>
+</entry_list>

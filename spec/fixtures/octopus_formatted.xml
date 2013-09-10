@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<entry_list version="1.0">
+  <entry id="octopus">
+    <art>
+      <artref id="octopus.tif"/>
+      <capt>octopus 1</capt>
+    </art>
+    <hw>oc*to*pus</hw>
+    <sound>
+      <wav>octopu01.wav</wav>
+    </sound>
+    <pr>ˈäk-tə-pəs</pr>
+    <fl>noun</fl>
+    <in>
+      <il>plural</il>
+      <if>oc*to*pus*es</if>
+      <il>or</il>
+      <if>oc*to*pi</if>
+      <pr>-ˌpī, -ˌpē</pr>
+    </in>
+    <def>
+      <sn>1</sn>
+      <dt>:any of various cephalopod sea mollusks having eight muscular arms with two rows of suckers</dt>
+      <sn>2</sn>
+      <dt>:something suggestive of an octopus especially in having many centrally directed branches</dt>
+    </def>
+    <et>Greek 
+      <it>
+        oktōpous</it>“having 8 feet,” from 
+      <it>
+        oktō</it>“eight” + 
+      <it>
+        pous</it>“foot”</et>
+  </entry>
+</entry_list>

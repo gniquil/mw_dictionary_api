@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<entry_list version="1.0">
+  <entry id="only[1]">
+    <hw hindex="1">on*ly</hw>
+    <sound>
+      <wav>only0001.wav</wav>
+    </sound>
+    <pr>ˈōn-lē</pr>
+    <fl>adjective</fl>
+    <def>
+      <sn>1</sn>
+      <dt>:unquestionably best :
+        <sx>
+          peerless</sx>
+        <vi>the 
+          <it>
+            only</it>dog for me</vi>
+      </dt>
+      <sn>2 a</sn>
+      <dt>:alone in a class or category :
+        <sx>
+          sole</sx>
+        <vi>the 
+          <it>
+            only</it>survivor</vi>
+      </dt>
+      <sn>b</sn>
+      <dt>:having no brother or sister 
+        <vi>
+          an 
+          <it>
+            only</it>child</vi>
+      </dt>
+      <sn>3</sn>
+      <dt>:
+        <sx>
+          few 
+          <sxn>
+            1</sxn>
+        </sx>
+        <vi>one of the 
+          <it>
+            only</it>areas not yet explored</vi>
+      </dt>
+    </def>
+    <et>Old English 
+      <it>
+        ānlīc,</it>from 
+      <it>
+        ān</it>“one” + 
+      <it>
+        -līc</it>“-ly”</et>
+  </entry>
+  <entry id="only[2]">
+    <hw hindex="2">only</hw>
+    <sound>
+      <wav>only0001.wav</wav>
+    </sound>
+    <fl>adverb</fl>
+    <def>
+      <sn>1 a</sn>
+      <dt>:as a single fact or instance and nothing more or different :
+        <sx>
+          merely</sx>
+        <vi>
+          <it>only</it>lost one game all season</vi>
+      </dt>
+      <sn>b</sn>
+      <dt>:
+        <sx>
+          exclusively</sx>
+        <sx>solely</sx>
+        <vi>known 
+          <it>
+            only</it>to me</vi>
+      </dt>
+      <sn>2</sn>
+      <dt>:at the very least 
+        <vi>
+          it was 
+          <it>
+            only</it>too true</vi>
+      </dt>
+      <sn>3 a</sn>
+      <dt>:in the final outcome 
+        <vi>
+          will 
+          <it>
+            only</it>make you sick</vi>
+      </dt>
+      <sn>b</sn>
+      <dt>:with nevertheless the final result being 
+        <vi>
+          won the battles, 
+          <it>
+            only</it>to lose the war</vi>
+      </dt>
+      <sn>4 a</sn>
+      <dt>:as recently as :not before 
+        <vi>
+          <it>
+            only</it>last week</vi>
+      </dt>
+      <sn>b</sn>
+      <dt>:in the immediate past 
+        <vi>
+          <it>
+            only</it>just talked to them</vi>
+      </dt>
+    </def>
+  </entry>
+  <entry id="only[3]">
+    <hw hindex="3">only</hw>
+    <sound>
+      <wav>only0001.wav</wav>
+    </sound>
+    <fl>conjunction</fl>
+    <def>
+      <sn>1 a</sn>
+      <dt>:with this sole restriction that 
+        <vi>
+          you may go, 
+          <it>
+            only</it>come back early</vi>
+      </dt>
+      <sn>b</sn>
+      <dt>:and yet :
+        <sx>
+          however</sx>
+        <vi>they look nice, 
+          <it>
+            only</it>we can't use them</vi>
+      </dt>
+      <sn>2</sn>
+      <dt>:were it not that :
+        <sx>
+          except</sx>
+        <vi>I'd go, 
+          <it>
+            only</it>I'm too tired</vi>
+      </dt>
+    </def>
+  </entry>
+  <entry id="read-only memory">
+    <hw>read–only memory</hw>
+    <fl>noun</fl>
+    <def>
+      <dt>:
+        <sx>
+          rom</sx>
+      </dt>
+    </def>
+  </entry>
+</entry_list>

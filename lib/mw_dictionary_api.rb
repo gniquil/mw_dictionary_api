@@ -1,0 +1,5 @@
+require 'active_support/all'
+require 'mw_dictionary_api/client'
+require 'mw_dictionary_api/result'
+require 'mw_dictionary_api/entry'
+require 'mw_dictionary_api/definition'
