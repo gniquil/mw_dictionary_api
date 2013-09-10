@@ -8,16 +8,10 @@ module MWDictionaryAPI
     let(:one_entry2_entity) { one_xml_doc.css("entry")[1] }
     let(:one_entry3_entity) { one_xml_doc.css("entry")[2] }
     let(:one_another_entry_entity) { one_xml_doc.css("entry")[3] }
-    let(:entry) { Entry.new("one", one_entry1_entity, 1) }
-    let(:one_another_entry) { Entry.new("one another", one_another_entry_entity, 1) }
+    let(:entry) { Entry.new(one_entry1_entity) }
+    let(:one_another_entry) { Entry.new(one_another_entry_entity) }
 
     describe "attributes" do
-
-      it "returns the entry" do
-        entry.definitions.each do |definition|
-          expect(definition.entry).to eq entry
-        end
-      end
 
       it "returns the sense number if available" do
         expect(entry.definitions.first.sense_number).to eq "1"
@@ -52,18 +46,18 @@ module MWDictionaryAPI
 
     end
 
-    describe ".construct_sense_number" do
-      it { expect(Definition.construct_sense_number("2", "1a")).to eq "2" }
-      it { expect(Definition.construct_sense_number("2", nil)).to eq "2" }
-      it { expect(Definition.construct_sense_number("b", "1a")).to eq "1b" }
-      it { expect(Definition.construct_sense_number("2", "1a")).to eq "2" }
-      it { expect(Definition.construct_sense_number("2a", "1a")).to eq "2a" }
+    describe "#construct_sense_number" do
+      it { expect(entry.definitions.first.construct_sense_number("2", "1a")).to eq "2" }
+      it { expect(entry.definitions.first.construct_sense_number("2", nil)).to eq "2" }
+      it { expect(entry.definitions.first.construct_sense_number("b", "1a")).to eq "1b" }
+      it { expect(entry.definitions.first.construct_sense_number("2", "1a")).to eq "2" }
+      it { expect(entry.definitions.first.construct_sense_number("2a", "1a")).to eq "2a" }
 
-      it { expect(Definition.construct_sense_number("2a(1)", "1 b")).to eq "2a(1)" }
-      it { expect(Definition.construct_sense_number("2a(1)", "1")).to eq "2a(1)" }
-      it { expect(Definition.construct_sense_number("(2)", "1a(1)")).to eq "1a(2)" }
-      it { expect(Definition.construct_sense_number("b", "1a(1)")).to eq "1b" }
-      it { expect(Definition.construct_sense_number("2", "1a(1)")).to eq "2" }
+      it { expect(entry.definitions.first.construct_sense_number("2a(1)", "1 b")).to eq "2a(1)" }
+      it { expect(entry.definitions.first.construct_sense_number("2a(1)", "1")).to eq "2a(1)" }
+      it { expect(entry.definitions.first.construct_sense_number("(2)", "1a(1)")).to eq "1a(2)" }
+      it { expect(entry.definitions.first.construct_sense_number("b", "1a(1)")).to eq "1b" }
+      it { expect(entry.definitions.first.construct_sense_number("2", "1a(1)")).to eq "2" }
     end
 
     describe "#to_hash" do

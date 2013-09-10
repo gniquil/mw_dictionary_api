@@ -3,13 +3,11 @@ module MWDictionaryAPI
 
     attr_reader :entry, :sense_number, :verbal_illustration, :cross_reference, :text
 
-    def initialize(entry, dt: nil, sn: "1")
-      @entry = entry
+    def initialize(dt: nil, sn: "1", prev_sn: nil)
       @dt = dt
       
-      prev_definition = entry.definitions[-1]
-      @sense_number = (prev_definition) ? Definition.construct_sense_number(sn, prev_definition.sense_number) : Definition.construct_sense_number(sn, nil)
-
+      # prev_definition = entry.definitions[-1]
+      @sense_number = construct_sense_number(sn, prev_sn)
 
       @verbal_illustration = (@dt.at_css("vi").nil?) ? nil : @dt.at_css("vi").content
 
@@ -32,7 +30,7 @@ module MWDictionaryAPI
       }
     end
 
-    def self.construct_sense_number(current_sn, previous_sn)
+    def construct_sense_number(current_sn, previous_sn)
       if previous_sn.nil?
         current_sn.gsub(" ", "")
       else

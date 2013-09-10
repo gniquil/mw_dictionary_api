@@ -8,20 +8,26 @@ module MWDictionaryAPI
     let(:one_entry1) { one_xml_doc.css("entry")[0] }
     let(:one_entry2) { one_xml_doc.css("entry")[1] }
     let(:one_entry3) { one_xml_doc.css("entry")[2] }
-    let(:entry) { Entry.new("one", one_entry1, 1) }
+    let(:entry) { Entry.new(one_entry1) }
+    let(:entry2) { Entry.new(one_entry2) }
+    let(:entry3) { Entry.new(one_entry3) }
     let(:particularity_xml_doc) { Nokogiri::XML(File.open(fixture_path('particularity.xml')).read) }
-    let(:particularity_entry) { Entry.new("particularity", particularity_xml_doc.css("entry")[0], 1) }
+    let(:particularity_entry) { Entry.new(particularity_xml_doc.css("entry")[0]) }
     let(:octopus_xml_doc) { Nokogiri::XML(File.open(fixture_path('octopus.xml')).read) }
-    let(:octopus_entry) { Entry.new("octopus", octopus_xml_doc.css("entry")[0], 1) }
+    let(:octopus_entry) { Entry.new(octopus_xml_doc.css("entry")[0]) }
     
     describe "attributes" do
       
       it "returns the word" do
         expect(entry.word).to eq "one"
+        expect(entry2.word).to eq "one"
+        expect(entry3.word).to eq "one"
       end
 
       it "returns the entry id" do
         expect(entry.id).to eq 1
+        expect(entry2.id).to eq 2
+        expect(entry3.id).to eq 3
       end
 
       it "returns 1 when id is not available" do
@@ -42,6 +48,25 @@ module MWDictionaryAPI
 
       it "returns the name of sound file" do 
         expect(entry.sound).to eq "one00001.wav"
+      end
+
+      describe "#parse_word_and_index" do
+        it 'returns word and word_index' do
+          word, word_index = entry.parse_word_and_index('one[3]')
+          expect(word).to eq 'one'
+          expect(word_index).to eq 3
+          word, word_index = entry.parse_word_and_index('another[234]')
+          expect(word).to eq 'another'
+          expect(word_index).to eq 234
+        end
+
+        it 'returns word and 1 when no word_index' do
+          expect(entry.parse_word_and_index('one')).to eq ['one', 1]
+        end
+
+        it 'returns "" and 1 when "" given' do
+          expect{ entry.parse_word_and_index('') }.to raise_error(ArgumentError)
+        end
       end
 
       describe "#definitions" do

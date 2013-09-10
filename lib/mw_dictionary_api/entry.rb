@@ -2,26 +2,23 @@ module MWDictionaryAPI
 
   class Entry
 
-    attr_reader :word, :id
-    attr_reader :head_word, :pronunciation, :part_of_speech, :sound, :definitions, :inflections
+    attr_reader :id, :word, :head_word, 
+                :pronunciation, :part_of_speech, :sound, 
+                :definitions, :inflections
 
-    def initialize(word, xml_doc, id)
-      @word = word
-      @id = id
+    def initialize(xml_doc)
       @xml_doc = xml_doc
 
-      set_instance_var_by_tag(:head_word, "hw")
-      set_instance_var_by_tag(:pronunciation, "pr")
-      set_instance_var_by_tag(:part_of_speech, "fl")
-      set_instance_var_by_tag(:sound, "sound wav")
+      @word, @id = parse_word_and_index(@xml_doc.attribute("id").value)
 
-      @definitions = []
-      
-      parse_definitions
+      @head_word = parse_tag("hw")
+      @pronunciation = parse_tag("pr")
+      @part_of_speech = parse_tag("fl")
+      @sound = parse_tag("sound wav")
 
-      @inflections = {}
+      @definitions = parse_definitions
 
-      parse_inflections
+      @inflections = parse_inflections
     end
 
     def to_hash
@@ -36,30 +33,39 @@ module MWDictionaryAPI
       }
     end
 
-    private
+    def parse_tag(tag)
+      (@xml_doc.at_css(tag)) ? @xml_doc.at_css(tag).content : nil
+    end
 
-    def set_instance_var_by_tag(varname, tag)
-      tag_entity = @xml_doc.at_css(tag)
-      if tag_entity
-        instance_variable_set("@#{varname.to_s}", tag_entity.content)
+    def parse_word_and_index(id_attribute)
+      id_attribute_array = id_attribute.split(/\[|\]/)
+      if id_attribute_array.count == 2
+        [id_attribute_array[0], id_attribute_array[1].to_i]
+      elsif id_attribute_array.count == 1
+        [id_attribute_array[0], 1]
       else
-        instance_variable_set("@#{varname.to_s}", nil)
+        raise ArgumentError, "Invalid id attribute in entry node"
       end
     end
 
     def parse_definitions
+      definitions = []
       temp = []
+
       @xml_doc.css("def").children.each do |child|
         temp << child
         if child.name == "dt"
+          prev_sn = (definitions[-1]) ? definitions[-1].sense_number : nil
           if temp.count == 2
-            definitions << Definition.new(self, dt: temp[1], sn: temp[0].content)
+            definitions << Definition.new(dt: temp[1], sn: temp[0].content, prev_sn: prev_sn)
           else
-            definitions << Definition.new(self, dt: temp[0])
+            definitions << Definition.new(dt: temp[0], prev_sn: prev_sn)
           end
           temp = []
         end
       end
+
+      definitions
     end
 
     def parse_inflections
@@ -75,7 +81,7 @@ module MWDictionaryAPI
         end
       end
 
-      @inflections = temp.inject({}) do |memo, obj|
+      temp.inject({}) do |memo, obj|
         il = obj[:label]
         if memo.has_key? il
           memo[il] << obj[:value]

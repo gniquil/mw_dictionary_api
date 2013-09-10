@@ -1,7 +1,6 @@
 require 'mw_dictionary_api'
-require 'nokogiri'
 require 'support/fixture_path'
-require "support/reset_api_key"
+# require "support/reset_api_key"
 
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
