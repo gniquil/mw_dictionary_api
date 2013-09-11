@@ -1,18 +1,18 @@
 module MWDictionaryAPI
   class Definition
 
-    attr_reader :entry, :sense_number, :verbal_illustration, :cross_reference, :text
+    attr_reader :sense_number, :verbal_illustration, :cross_reference, :text, :api_type
 
-    def initialize(dt: nil, sn: "1", prev_sn: nil)
+    def initialize(dt: nil, sn: "1", prev_sn: nil, api_type: "sd4")
       @dt = dt
+      @api_type = api_type
       
-      # prev_definition = entry.definitions[-1]
       @sense_number = construct_sense_number(sn, prev_sn)
 
-      @verbal_illustration = (@dt.at_css("vi").nil?) ? nil : @dt.at_css("vi").content
+      @verbal_illustration = @dt.at_css("vi").content if @dt.at_css("vi")
 
       @cross_reference = []
-      @dt.css("sx").each do |sx|
+      @dt.xpath("sx").each do |sx|
         @cross_reference << sx.content
       end
 
@@ -31,27 +31,20 @@ module MWDictionaryAPI
     end
 
     def construct_sense_number(current_sn, previous_sn)
-      if previous_sn.nil?
-        current_sn.gsub(" ", "")
-      else
-        if current_sn =~ /^\d+/
-          current_sn.gsub(" ", "")
-        elsif current_sn =~ /^\(\d+\)/
-          if previous_sn =~ /\(\d+\)$/
-            previous_sn.gsub(/\(\d+\)$/, "") + current_sn
-          else
-            previous_sn + current_sn
-          end
-        else
-          if previous_sn =~ /[a-z]+$/
-            previous_sn.gsub(/[a-z]+$/, "") + current_sn.gsub(" ", "")
-          elsif previous_sn =~ /[a-z]+\(\d+\)$/
-            previous_sn.gsub(/[a-z]+\(\d+\)$/, "") + current_sn
-          else
-            current_sn.gsub(" ", "")
-          end
-        end
+      current_sn = current_sn.gsub(" ", "")
+
+      return current_sn if previous_sn.nil?
+
+      if current_sn =~ /^\d+/ # starts with a digit
+        current_sn
+      elsif current_sn =~ /^[a-z]+/ # starts with a alphabet
+        m = /^(\d+)/.match(previous_sn)
+        (m) ? m[1] + current_sn : current_sn
+      else # starts with a bracket ( e.g. (1)
+        m = /^(\d+)*([a-z]+)*/.match(previous_sn)
+        m[1..2].select { |segment| !segment.nil? }.join("") + current_sn
       end
     end
+
   end
 end

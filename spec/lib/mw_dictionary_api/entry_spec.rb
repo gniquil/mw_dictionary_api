@@ -32,6 +32,12 @@ module MWDictionaryAPI
         expect(entry3.id).to eq 3
       end
 
+      it "returns the entry id_attribute" do
+        expect(entry.id_attribute).to eq "one[1]"
+        expect(entry2.id_attribute).to eq "one[2]"
+        expect(entry3.id_attribute).to eq "one[3]"
+      end
+
       it "returns 1 when id is not available" do
         expect(octopus_entry.id).to eq 1
       end
@@ -54,21 +60,22 @@ module MWDictionaryAPI
 
       describe "#parse_word_and_index" do
         it 'returns word and word_index' do
-          word, word_index = entry.parse_word_and_index('one[3]')
+          entry.instance_variable_set(:@id_attribute, 'one[3]')
+          word, word_index = entry.parse_word_and_index
           expect(word).to eq 'one'
           expect(word_index).to eq 3
-          word, word_index = entry.parse_word_and_index('another[234]')
+
+          entry.instance_variable_set(:@id_attribute, 'another[234]')
+          word, word_index = entry.parse_word_and_index
           expect(word).to eq 'another'
           expect(word_index).to eq 234
         end
 
         it 'returns word and 1 when no word_index' do
-          expect(entry.parse_word_and_index('one')).to eq ['one', 1]
+          entry.instance_variable_set(:@id_attribute, 'one')
+          expect(entry.parse_word_and_index).to eq ['one', 1]
         end
 
-        it 'returns "" and 1 when "" given' do
-          expect{ entry.parse_word_and_index('') }.to raise_error(ArgumentError)
-        end
       end
 
       describe "#definitions" do
@@ -80,6 +87,7 @@ module MWDictionaryAPI
         end
 
         it "show an non-empty list" do
+          pp entry.to_hash
           expect(entry.definitions.count).to eq 7
         end
 

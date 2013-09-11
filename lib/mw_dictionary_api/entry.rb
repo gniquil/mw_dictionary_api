@@ -2,14 +2,18 @@ module MWDictionaryAPI
 
   class Entry
 
-    attr_reader :id, :word, :head_word, 
+    attr_reader :id_attribute, :id, :word, :head_word, 
                 :pronunciation, :part_of_speech, :sound, 
-                :definitions, :inflections
+                :definitions, :inflections,
+                :api_type
 
-    def initialize(xml_doc)
+    def initialize(xml_doc, api_type: "sd4")
       @xml_doc = xml_doc
+      @api_type = api_type
 
-      @word, @id = parse_word_and_index(@xml_doc.attribute("id").value)
+      @id_attribute = @xml_doc.attribute("id").value
+
+      @word, @id = parse_word_and_index
 
       @head_word = parse_tag("hw")
       @pronunciation = parse_tag("pr")
@@ -34,63 +38,39 @@ module MWDictionaryAPI
     end
 
     def parse_tag(tag)
-      (@xml_doc.at_css(tag)) ? @xml_doc.at_css(tag).content : nil
+      @xml_doc.at_css(tag).content if @xml_doc.at_css(tag)
     end
 
-    def parse_word_and_index(id_attribute)
-      id_attribute_array = id_attribute.split(/\[|\]/)
-      if id_attribute_array.count == 2
-        [id_attribute_array[0], id_attribute_array[1].to_i]
-      elsif id_attribute_array.count == 1
-        [id_attribute_array[0], 1]
-      else
-        raise ArgumentError, "Invalid id attribute in entry node"
-      end
+    def parse_word_and_index
+      m = /(.*)\[(\d+)\]/.match(@id_attribute)
+      (m) ? [m[1], m[2].to_i] : [@id_attribute, 1]
     end
 
     def parse_definitions
-      definitions = []
-      temp = []
-
-      @xml_doc.css("def").children.each do |child|
-        if ["sn", "dt"].include? child.name
-          temp << child
-          if child.name == "dt"
-            prev_sn = (definitions[-1]) ? definitions[-1].sense_number : nil
-            if temp.count == 2
-              definitions << Definition.new(dt: temp[1], sn: temp[0].content, prev_sn: prev_sn)
-            else
-              definitions << Definition.new(dt: temp[0], prev_sn: prev_sn)
-            end
-            temp = []
-          end
+      # here we assume 
+      # 1. sense number (sn) alway appear before a definition (dt) in pairs
+      # 2. definition (dt) appear by itself
+      # @xml_doc.xpath("//entry[@id='#{@id_attribute}']//sn | //entry[@id='#{@id_attribute}']//dt").each_slice(2) do |nodes|
+      @xml_doc.xpath("def//sn | def//dt").each_slice(2).inject([]) do |definitions, nodes|
+        hash = Hash[nodes.map {|n| n.name.to_sym}.zip(nodes.map {|n| (n.name == 'sn') ? n.content : n })]
+        if hash.has_key? :dt 
+          hash[:prev_sn] = definitions[-1].sense_number if definitions[-1]
+          definitions << Definition.new(**hash, api_type: api_type)
         end
+        definitions
       end
-
-      definitions
     end
 
     def parse_inflections
-      temp = []
-      il_array = @xml_doc.css("in il").map { |il| il.content }
-      iff_array = @xml_doc.css("in if").map { |iff| iff.content.gsub(/\W/, "") }
-
-      il_array.each_index do |index|
-        if il_array[index] == "or"
-          temp << { label: il_array[index-1], value: iff_array[index] }
-        else  
-          temp << { label: il_array[index], value: iff_array[index] }
-        end
-      end
-
-      temp.inject({}) do |memo, obj|
-        il = obj[:label]
-        if memo.has_key? il
-          memo[il] << obj[:value]
-        else
-          memo[il] = [obj[:value]]
-        end
-        memo
+      @xml_doc.xpath("in//il | in//if").each_slice(2).inject([]) do |hashes, nodes|
+        hash = Hash[nodes.map {|n| n.name.to_sym}.zip(nodes.map {|n| n.content})]
+        hash[:il] = hashes[-1][:il] if hash[:il] == "or"
+        hashes << hash
+        hashes
+      end.inject({}) do |inflections, hash|
+        inflections[hash[:il]] ||= []
+        inflections[hash[:il]] << hash[:if].gsub(/\W/, "")
+        inflections
       end
     end
   end

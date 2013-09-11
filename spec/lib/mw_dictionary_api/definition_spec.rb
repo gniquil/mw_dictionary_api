@@ -53,17 +53,23 @@ module MWDictionaryAPI
     end
 
     describe "#construct_sense_number" do
-      it { expect(entry.definitions.first.construct_sense_number("2", "1a")).to eq "2" }
       it { expect(entry.definitions.first.construct_sense_number("2", nil)).to eq "2" }
-      it { expect(entry.definitions.first.construct_sense_number("b", "1a")).to eq "1b" }
+      it { expect(entry.definitions.first.construct_sense_number("2", "1")).to eq "2" }
       it { expect(entry.definitions.first.construct_sense_number("2", "1a")).to eq "2" }
-      it { expect(entry.definitions.first.construct_sense_number("2a", "1a")).to eq "2a" }
-
-      it { expect(entry.definitions.first.construct_sense_number("2a(1)", "1 b")).to eq "2a(1)" }
-      it { expect(entry.definitions.first.construct_sense_number("2a(1)", "1")).to eq "2a(1)" }
-      it { expect(entry.definitions.first.construct_sense_number("(2)", "1a(1)")).to eq "1a(2)" }
-      it { expect(entry.definitions.first.construct_sense_number("b", "1a(1)")).to eq "1b" }
       it { expect(entry.definitions.first.construct_sense_number("2", "1a(1)")).to eq "2" }
+      it { expect(entry.definitions.first.construct_sense_number("2a", "1")).to eq "2a" }
+      it { expect(entry.definitions.first.construct_sense_number("2a", "1a")).to eq "2a" }
+      it { expect(entry.definitions.first.construct_sense_number("2a", "1a(1)")).to eq "2a" }
+      it { expect(entry.definitions.first.construct_sense_number("2a(1)", "1")).to eq "2a(1)" }
+      it { expect(entry.definitions.first.construct_sense_number("2a(1)", "1b")).to eq "2a(1)" }
+      it { expect(entry.definitions.first.construct_sense_number("2a(1)", "1b(1)")).to eq "2a(1)" }
+      it { expect(entry.definitions.first.construct_sense_number("b", "1a")).to eq "1b" }
+      it { expect(entry.definitions.first.construct_sense_number("b", "1a(1)")).to eq "1b" }
+      it { expect(entry.definitions.first.construct_sense_number("b", "a")).to eq "b" }
+      it { expect(entry.definitions.first.construct_sense_number("b", "(1)")).to eq "b" }
+      it { expect(entry.definitions.first.construct_sense_number("(2)", "1a(1)")).to eq "1a(2)" }
+      it { expect(entry.definitions.first.construct_sense_number("(2)", "a(1)")).to eq "a(2)" }
+      it { expect(entry.definitions.first.construct_sense_number("(2)", "(1)")).to eq "(2)" }
     end
 
     describe "#to_hash" do

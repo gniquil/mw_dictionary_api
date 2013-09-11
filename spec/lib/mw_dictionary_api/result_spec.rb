@@ -4,11 +4,11 @@ module MWDictionaryAPI
   describe Result do
     let(:word) { "one" }
     let(:raw_response) { File.open(fixture_path("one.xml")).read }
-    let(:result) { Result.new(word, raw_response, "sd4") }
+    let(:result) { Result.new(word, raw_response) }
 
     describe "attributes" do
-      it "has searched_word attribute" do
-        expect(result.searched_word).to eq word
+      it "has term attribute" do
+        expect(result.term).to eq word
       end
 
       it "has raw_response attribute" do
@@ -62,7 +62,7 @@ module MWDictionaryAPI
     describe "#to_hash" do
       it "returns a hash" do
         expect(result.to_hash).to eq({
-          "searched_word" => "one",
+          "term" => "one",
           "entries" => result.entries.map { |e| e.to_hash }
         })
       end

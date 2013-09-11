@@ -1,14 +1,14 @@
 module MWDictionaryAPI
   class Result
     
-    attr_reader :raw_response, :api_type, :searched_word, :entries, :suggestions
+    attr_reader :raw_response, :api_type, :term, :entries, :suggestions
 
-    def initialize(searched_word, raw_response, api_type)
+    def initialize(term, raw_response, api_type: "sd4")
       unless %W[collegiate sd4].include? api_type
         raise ArgumentError, "Not a supported api_type"
       end
 
-      @searched_word = searched_word
+      @term = term
       @raw_response = raw_response
       @api_type = api_type
 
@@ -21,7 +21,7 @@ module MWDictionaryAPI
       xml_doc = Nokogiri::XML(raw_response)
       
       xml_doc.css("entry").each do |xml_entry|
-        entries << Entry.new(xml_entry)
+        entries << Entry.new(xml_entry, api_type: api_type)
       end
       entries
     end
@@ -42,7 +42,7 @@ module MWDictionaryAPI
 
     def to_hash
       {
-        "searched_word" => searched_word,
+        "term" => term,
         "entries" => entries.map { |e| e.to_hash }
       }
     end
