@@ -13,7 +13,7 @@ module MWDictionaryAPI
       @api_type = api_type
       @response_format = response_format
 
-      parser = ResultParser.new(api_type: api_type, response_format: response_format)
+      parser = Parsers::ResultParser.new(api_type: api_type, response_format: response_format)
       attributes = parser.parse(Nokogiri::XML(raw_response))
       @entries = attributes[:entries]
       @suggestions = attributes[:suggestions]

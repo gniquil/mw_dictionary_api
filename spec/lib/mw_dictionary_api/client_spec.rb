@@ -59,7 +59,7 @@ module MWDictionaryAPI
           end.not_to raise_error
         end
 
-        describe "invalid responses" do
+        describe "invalid responses", :external do
           it "raises MWDictionaryAPI::ResponseException when api_key is incorrect" do
             client.api_key = '123'
             expect {

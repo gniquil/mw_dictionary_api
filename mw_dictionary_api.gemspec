@@ -11,8 +11,10 @@ Gem::Specification.new do |s|
     "lib/mw_dictionary_api/client.rb",
     "lib/mw_dictionary_api/result.rb",
     "lib/mw_dictionary_api/entry.rb",
-    "lib/mw_dictionary_api/definition.rb",
-    "lib/mw_dictionary_api/memory_cache.rb"
+    "lib/mw_dictionary_api/parsable.rb",
+    "lib/mw_dictionary_api/memory_cache.rb",
+    "lib/mw_dictionary_api/parsers/entry_parser.rb",
+    "lib/mw_dictionary_api/parsers/result_parser.rb"
   ]
   s.homepage    = 'https://github.com/gniquil/mw_dictionary_api'
   s.license       = 'MIT'

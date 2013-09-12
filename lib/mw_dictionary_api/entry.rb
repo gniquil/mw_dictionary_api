@@ -12,7 +12,7 @@ module MWDictionaryAPI
       @api_type = api_type
       @response_format = response_format
 
-      parser = EntryParser.new(api_type: api_type, response_format: response_format)
+      parser = Parsers::EntryParser.new(api_type: api_type, response_format: response_format)
       attributes = parser.parse(xml_doc)
 
       @id_attribute = attributes[:id_attribute]
