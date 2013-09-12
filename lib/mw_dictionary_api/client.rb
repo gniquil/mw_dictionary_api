@@ -41,7 +41,7 @@ module MWDictionaryAPI
       else
         response = fetch_response(term)
       end
-      Result.new(term, response, api_type:api_type)
+      Result.new(term, response, api_type: api_type, response_format: response_format)
     end
 
     def fetch_response(term)

@@ -16,54 +16,12 @@ module MWDictionaryAPI
       end
     end
 
-    describe "#entries_group_by_word" do
-      it 'returns a list of entries without [] duplicates' do
-        doc = Nokogiri::XML(raw_response)
-        expected_keys = [
-          'one',
-          'one another',
-          'one-dimensional',
-          'one-horse',
-          'one-man',
-          'one-on-one',
-          'one-piece',
-          'one-sided'
-        ]
-        expect(result.entries_group_by_word.keys).to eq expected_keys
-        result.entries_group_by_word.each do |key, entry_array|
-          expect(entry_array).to be_an(Array)
-          entry_array.each do |entry|
-            expect(entry).to be_an(Entry)
-          end
-        end
-      end
-    end
-
-    describe "#entries" do
-      it "returns a list of entries with duplicates" do
-        expected_keys = [
-          'one',
-          'one',
-          'one',
-          'one another',
-          'one-dimensional',
-          'one-horse',
-          'one-man',
-          'one-on-one',
-          'one-piece',
-          'one-sided'
-        ]
-        result.entries.each_index do |index|
-          expect(result.entries[index].word).to eq expected_keys[index]
-        end
-      end
-    end
-
     describe "#to_hash" do
       it "returns a hash" do
         expect(result.to_hash).to eq({
           "term" => "one",
-          "entries" => result.entries.map { |e| e.to_hash }
+          "entries" => result.entries.map { |e| e.to_hash },
+          "suggestions" => []
         })
       end
     end
