@@ -2,7 +2,6 @@
 require 'nokogiri'
 require 'mw_dictionary_api/client'
 require 'mw_dictionary_api/result'
-require 'mw_dictionary_api/entry'
 require "mw_dictionary_api/parsable"
 require 'mw_dictionary_api/memory_cache'
 require 'mw_dictionary_api/parsers/entry_parser'

@@ -1,7 +1,10 @@
+# encoding: UTF-8
+
 require 'spec_helper'
 
 module MWDictionaryAPI
   describe Client do
+
     let(:client) { Client.new(ENV['MW_API_KEY']) }
 
     describe "attributes" do
@@ -70,22 +73,20 @@ module MWDictionaryAPI
       end
 
       describe "#search" do
+        let(:response_content) { File.open(fixture_path("one.xml")).read }
+        before do
+          allow(client).to receive(:fetch_response).with("one").and_return(response_content)
+        end
         
         describe ".search with search_cache" do
-          
-          before do
-            client.search_cache.clear
-            allow(client).to receive(:fetch_response).with("one").and_return(File.open(fixture_path("one.xml")).read)
-          end
-
           it "should add the result into cache if not found in cache" do
             result = client.search("one")
-            expect(client.search_cache.find("one")).to eq result.raw_response
+            expect(Client.cache.find("one")).to eq result.raw_response
           end
 
           it "should force refresh of the cache if :update_cache => true and result already exists" do
-            expect(client.search_cache).to receive(:add).exactly(2).times.and_call_original
-            expect(client.search_cache).to receive(:remove).once.with("one").and_call_original
+            expect(Client.cache).to receive(:add).exactly(2).times.and_call_original
+            expect(Client.cache).to receive(:remove).once.with("one").and_call_original
 
             result = client.search("one")
             result = client.search("one", update_cache: true)
@@ -94,12 +95,64 @@ module MWDictionaryAPI
 
           it "should preserve previous cache if connection is lost when force refresh" do 
             result = client.search("one")
-            expect(client.search_cache.find("one")).not_to be_empty
+            expect(Client.cache.find("one")).not_to be_empty
             expect(client).to receive(:fetch_response).and_raise(SocketError)
             expect {
               result = client.search("one", update_cache: true)  
             }.to raise_error(SocketError)
-            expect(client.search_cache.find("one")).not_to be_empty
+            expect(Client.cache.find("one")).not_to be_empty
+          end
+        end
+
+        describe "configuring the cache" do
+          it "should use the custom cache" do
+            class SimpleCache
+              def find(term)
+                @cache[term]
+              end
+
+              def add(term, result)
+                @cache[term] = result
+              end
+
+              def remove(term)
+                @cache.delete(term)
+              end
+
+              def clear
+                @cache.clear
+              end
+
+              # non-required methods
+              def initialize(cache)
+                @cache = cache
+              end
+            end
+
+            cache_hash = {}
+
+            Client.cache = SimpleCache.new(cache_hash)
+
+            client.search("one")
+            expect(cache_hash.fetch("one")).to eq response_content
+            expect(MemoryCache.find("one")).to be_nil
+          end
+        end
+
+        describe "searching with a custom parser class" do
+          it "returns a result with the custom class" do
+            class SimpleParser
+              include Parsable
+
+              rule :entries do |data, opts|
+                "simple"
+              end
+            end
+
+            result = client.search("one", parser_class: SimpleParser)
+            expect(result.parser_class).to eq SimpleParser
+            expect(result.entries).to eq "simple"
+            expect(result.suggestions).to eq nil
           end
         end
 

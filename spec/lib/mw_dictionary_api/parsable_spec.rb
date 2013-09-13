@@ -150,6 +150,47 @@ module MWDictionaryAPI
         expect(attributes.count).to eq 1
       end
     end
-  end
 
+    describe "defining rule helpers" do
+      it "allows rules to call these helpers" do
+        class Parsor
+          rule :a do |data, options|
+            bang("a")
+          end
+
+          rule_helpers do
+            def bang(a)
+              "#{a}!"
+            end
+          end
+        end
+
+        attributes = Parsor.new.parse(nil)
+        expect(attributes[:a]).to eq "a!"
+      end
+
+      it "is safe to call multiple times" do
+        class Parsor
+          rule :a do |data, options|
+            question(bang("a"))
+          end
+
+          rule_helpers do
+            def bang(a)
+              "#{a}!"
+            end
+          end
+
+          rule_helpers do
+            def question(a)
+              "#{a}?"
+            end
+          end
+        end
+
+        attributes = Parsor.new.parse(nil)
+        expect(attributes[:a]).to eq "a!?"
+      end
+    end
+  end
 end

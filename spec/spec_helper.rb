@@ -1,5 +1,6 @@
 require 'mw_dictionary_api'
 require 'support/fixture_path'
+require 'support/cleanup'
 # require "support/reset_api_key"
 
 RSpec.configure do |config|

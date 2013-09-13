@@ -24,6 +24,10 @@ module MWDictionaryAPI
       def apply_rule(attr_name, data, options)
         inherited_rules[attr_name][:block].call(data, options)
       end
+
+      def rule_helpers(&block)
+        instance_eval(&block)
+      end
     end
 
     def initialize(**options)
