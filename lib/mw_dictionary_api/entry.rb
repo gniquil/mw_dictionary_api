@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 module MWDictionaryAPI
 
   class Entry
@@ -28,13 +30,13 @@ module MWDictionaryAPI
 
     def to_hash
       {
-        "id" => id,
-        "word" => word,
-        "head_word" => head_word,
-        "pronunciation" => pronunciation,
-        "part_of_speech" => part_of_speech,
-        "inflections" => inflections,
-        "definitions" => definitions
+        id: id,
+        word: word,
+        head_word: head_word,
+        pronunciation: pronunciation,
+        part_of_speech: part_of_speech,
+        inflections: inflections,
+        definitions: definitions
       }
     end
 

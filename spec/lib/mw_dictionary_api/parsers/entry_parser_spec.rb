@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 require 'spec_helper'
 
 module MWDictionaryAPI
@@ -59,54 +61,6 @@ module MWDictionaryAPI
         expect(parse(one_entry1)[:sound]).to eq "one00001.wav"
       end
 
-      describe "#construct_sense_number" do
-        it { expect(EntryParser.apply_rule(:def_sense_number, {sn: "2", prev_sn: nil}, nil)).to eq "2" }
-        it { expect(EntryParser.apply_rule(:def_sense_number, {sn: "2", prev_sn: "1"}, nil)).to eq "2" }
-        it { expect(EntryParser.apply_rule(:def_sense_number, {sn: "2", prev_sn: "1a"}, nil)).to eq "2" }
-        it { expect(EntryParser.apply_rule(:def_sense_number, {sn: "2", prev_sn: "1a(1)"}, nil)).to eq "2" }
-        it { expect(EntryParser.apply_rule(:def_sense_number, {sn: "2a", prev_sn: "1"}, nil)).to eq "2a" }
-        it { expect(EntryParser.apply_rule(:def_sense_number, {sn: "2a", prev_sn: "1a"}, nil)).to eq "2a" }
-        it { expect(EntryParser.apply_rule(:def_sense_number, {sn: "2a", prev_sn: "1a(1)"}, nil)).to eq "2a" }
-        it { expect(EntryParser.apply_rule(:def_sense_number, {sn: "2a(1)", prev_sn: "1"}, nil)).to eq "2a(1)" }
-        it { expect(EntryParser.apply_rule(:def_sense_number, {sn: "2a(1)", prev_sn: "1b"}, nil)).to eq "2a(1)" }
-        it { expect(EntryParser.apply_rule(:def_sense_number, {sn: "2a(1)", prev_sn: "1b(1)"}, nil)).to eq "2a(1)" }
-        it { expect(EntryParser.apply_rule(:def_sense_number, {sn: "b", prev_sn: "1a"}, nil)).to eq "1b" }
-        it { expect(EntryParser.apply_rule(:def_sense_number, {sn: "b", prev_sn: "1a(1)"}, nil)).to eq "1b" }
-        it { expect(EntryParser.apply_rule(:def_sense_number, {sn: "b", prev_sn: "a"}, nil)).to eq "b" }
-        it { expect(EntryParser.apply_rule(:def_sense_number, {sn: "b", prev_sn: "(1)"}, nil)).to eq "b" }
-        it { expect(EntryParser.apply_rule(:def_sense_number, {sn: "(2)", prev_sn: "1a(1)"}, nil)).to eq "1a(2)" }
-        it { expect(EntryParser.apply_rule(:def_sense_number, {sn: "(2)", prev_sn: "a(1)"}, nil)).to eq "a(2)" }
-        it { expect(EntryParser.apply_rule(:def_sense_number, {sn: "(2)", prev_sn: "(1)"}, nil)).to eq "(2)" }
-      end
-
-      describe "definitions" do
-        let(:definitions) { parse(one_entry1)[:definitions] }
-        let(:collegiate_definitions) { parse(one_collegiate_entry)[:definitions] }
-
-        it "show an non-empty list" do
-          expect(definitions.count).to eq 7
-        end
-
-        it "should not be confused by non dt/sn elements" do
-          expect(collegiate_definitions[0]["text"]).not_to eq "before 12th century"
-        end
-
-        describe "individual definition" do
-          it "returns the verbal illustration" do
-            expect(definitions[0]["verbal_illustration"]).to eq "one person left"
-          end
-
-          it "returns the cross reference" do
-            expect(definitions[4]["cross_reference"]).to eq ["united"]
-            expect(definitions[6]["cross_reference"]).to eq ["only 2a"]
-          end
-
-          it "returns the text" do
-            expect(definitions[0]["text"]).to eq ":being a single unit or thing"
-          end
-        end
-      end
-
       describe "inflections" do
         let(:inflections) { parse(one_entry1)[:inflections] }
         let(:particularity_inflections) { parse(particularity_entry)[:inflections] }
@@ -114,8 +68,8 @@ module MWDictionaryAPI
 
         it "returns a list of inflections if available" do
           expect(inflections).to be_empty
-          expect(particularity_inflections).to eq({ "plural" => ["particularities"] })
-          expect(octopus_inflections).to eq({"plural" => ["octopuses", "octopi"]})
+          expect(particularity_inflections).to eq({ plural: ["particularities"] })
+          expect(octopus_inflections).to eq({plural: ["octopuses", "octopi"]})
         end
       end
     end

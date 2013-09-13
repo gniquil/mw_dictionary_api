@@ -1,7 +1,10 @@
+# encoding: UTF-8
+
 module MWDictionaryAPI
   class Result
     
-    attr_reader :raw_response, :api_type, :response_format, :term, :entries, :suggestions
+    attr_reader :raw_response, :api_type, :response_format, :term, 
+                :entries, :suggestions
 
     def initialize(term, raw_response, api_type: "sd4", response_format: "xml")
       unless %W[collegiate sd4].include? api_type

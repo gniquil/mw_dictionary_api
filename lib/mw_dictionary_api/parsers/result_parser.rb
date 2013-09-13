@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 module MWDictionaryAPI
   module Parsers
     class ResultParser
@@ -5,7 +7,8 @@ module MWDictionaryAPI
 
       rule :entries do |data, opts|
         data.css("entry").inject([]) do |entries, xml_entry|
-          entries << Entry.new(xml_entry, api_type: opts[:api_type], response_format: opts[:response_format])
+          parser = Parsers::EntryParser.new(api_type: opts[:api_type], response_format: opts[:response_format])
+          entries << parser.parse(xml_entry)
           entries
         end
       end

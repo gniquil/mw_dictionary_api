@@ -23,7 +23,7 @@ module MWDictionaryAPI
           'one-sided'
         ]
         attributes[:entries].each_index do |index|
-          expect(attributes[:entries][index].word).to eq expected_keys[index]
+          expect(attributes[:entries][index][:word]).to eq expected_keys[index]
         end
       end
 

@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 require 'cgi'
 require 'open-uri'
 
@@ -22,7 +24,7 @@ module MWDictionaryAPI
     end
 
     def url_for(word)
-      "#{API_ENDPOINT}/#{api_type}/#{response_format}/#{CGI.escape(word)}?key=#{api_key}"
+      "#{api_endpoint}/#{api_type}/#{response_format}/#{CGI.escape(word)}?key=#{api_key}"
     end
 
     def search(term, update_cache: false)
