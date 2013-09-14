@@ -49,15 +49,28 @@ module MWDictionaryAPI
       end
 
       rule :inflections do |data, opts|
-        data.xpath("in//il | in//if").each_slice(2).inject([]) do |hashes, nodes|
-          hash = Hash[nodes.map {|n| n.name.to_sym}.zip(nodes.map {|n| n.content})]
-          hash[:il] = hashes[-1][:il] if hashes[-1] and hash[:il] == "or"
-          hashes << hash
-        end.inject({}) do |inflections, hash|
-          inflections[hash[:il].to_sym] ||= []
-          inflections[hash[:il].to_sym] << hash[:if].gsub(/\W/, "")
+        inflections = data.xpath("in").inject([]) do |inflections, in_node|
+          hash = {}
+          in_node.xpath("il | if").each do |node|
+            if node.name == "il"
+              hash[:inflection_label] = node.content
+            else
+              hash[:inflected_form] = node.content.gsub(/\W/, "").force_encoding("UTF-8")
+            end
+
+            if hash.has_key? :inflected_form
+              inflections << hash
+              hash = {}
+            end
+          end
           inflections
         end
+        inflections.each_index do |index|
+          if inflections[index][:inflection_label] == "or"
+            inflections[index][:inflection_label] = inflections[index-1][:inflection_label] if index > 0
+          end
+        end
+        inflections
       end
 
       rule_helpers do

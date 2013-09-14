@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'mw_dictionary_api'
-  s.version     = '0.0.1'
+  s.version     = '0.1.1'
   s.date        = '2013-09-07'
   s.summary     = "Merriam Webster Dictionary API"
   s.description = "A Simple Way to Query Merriam Webster Dictionary API"
@@ -9,12 +9,12 @@ Gem::Specification.new do |s|
   s.files       = [
     "lib/mw_dictionary_api.rb", 
     "lib/mw_dictionary_api/client.rb",
-    "lib/mw_dictionary_api/result.rb",
-    "lib/mw_dictionary_api/entry.rb",
-    "lib/mw_dictionary_api/parsable.rb",
     "lib/mw_dictionary_api/memory_cache.rb",
+    "lib/mw_dictionary_api/parsable.rb",
+    "lib/mw_dictionary_api/result.rb",
+    "lib/mw_dictionary_api/parsers/result_parser.rb",
     "lib/mw_dictionary_api/parsers/entry_parser.rb",
-    "lib/mw_dictionary_api/parsers/result_parser.rb"
+    "lib/mw_dictionary_api/parsers/definition_parser.rb"
   ]
   s.homepage    = 'https://github.com/gniquil/mw_dictionary_api'
   s.license       = 'MIT'

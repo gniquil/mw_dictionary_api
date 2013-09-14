@@ -13,7 +13,7 @@ module MWDictionaryAPI
       @api_type = api_type
       @response_format = response_format
       @parser_class = parser_class
-      
+
       parse!
     end
 

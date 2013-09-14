@@ -68,8 +68,28 @@ module MWDictionaryAPI
 
         it "returns a list of inflections if available" do
           expect(inflections).to be_empty
-          expect(particularity_inflections).to eq({ plural: ["particularities"] })
-          expect(octopus_inflections).to eq({plural: ["octopuses", "octopi"]})
+          expect(particularity_inflections).to eq([{ 
+            inflection_label: "plural", 
+            inflected_form: "particularities" 
+          }])
+          expect(octopus_inflections).to eq([
+            { inflection_label: "plural", inflected_form: "octopuses" },
+            { inflection_label: "plural", inflected_form: "octopi"}
+          ])
+        end
+
+        context "when <in> elements repeat and <il> is absent" do
+          let(:funny_xml_doc) { Nokogiri::XML(File.open(fixture_path('funny.xml')).read) }
+          let(:funny1_entry) { funny_xml_doc.css("entry")[0] }
+
+          it 'returns the correct list of inflections' do
+            inflections = parse(funny1_entry)[:inflections]
+            expect(inflections.count).to eq 2
+            expect(inflections).to eq([
+              { inflected_form: "funnier" },
+              { inflected_form: "funniest" }
+            ])
+          end
         end
       end
     end
