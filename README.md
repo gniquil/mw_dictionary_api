@@ -17,7 +17,9 @@ Finally, at this point, only the "sd4" product (a designation for 9-11th grade s
 
 ### Install the gem
 
-I will submit the gem soon. TBD...
+```
+gem install mw_dictionary_api
+```
 
 ### Register and get your API_KEY and jot down the product type
 
@@ -35,7 +37,7 @@ require 'mw_dictionary_api'
 
 client = MWDictionaryAPI::Client.new(ENV['MW_SD4_API_KEY'])
 result = client.search("one")
-p result.to_hash
+pp result.to_hash
 ```
 
 To use other types of dictionaries
