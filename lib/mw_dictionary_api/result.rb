@@ -1,5 +1,8 @@
 # encoding: UTF-8
 
+require 'nokogiri'
+require 'json'
+
 module MWDictionaryAPI
   class Result
     
@@ -30,6 +33,10 @@ module MWDictionaryAPI
         entries: entries,
         suggestions: suggestions
       }
+    end
+
+    def to_json
+      to_hash.to_json
     end
   end
 end

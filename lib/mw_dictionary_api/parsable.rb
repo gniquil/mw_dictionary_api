@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 module MWDictionaryAPI
   module Parsable
     def self.included(base)

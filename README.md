@@ -37,7 +37,20 @@ require 'mw_dictionary_api'
 
 client = MWDictionaryAPI::Client.new(ENV['MW_SD4_API_KEY'])
 result = client.search("one")
-pp result.to_hash
+```
+
+To read the content you can do the following
+
+```ruby
+puts result.entries # => an array of hashes, each present an entry
+
+# when your search is slightly off, you will get a list of suggestions
+# result.entries.count should be 0
+puts result.suggestions 
+
+# for convenience
+puts result.to_hash
+puts result.to_json
 ```
 
 To use other types of dictionaries

@@ -83,5 +83,11 @@ module MWDictionaryAPI
         end
       end
     end
+
+    describe "#to_json" do
+      it "returns a json" do
+        expect(result.to_json).to eq(result.to_hash.to_json)
+      end
+    end
   end
 end

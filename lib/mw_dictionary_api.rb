@@ -1,5 +1,5 @@
-# require 'active_support/core_ext/class/attribute'
-require 'nokogiri'
+# encoding: UTF-8
+
 require 'mw_dictionary_api/client'
 require 'mw_dictionary_api/result'
 require "mw_dictionary_api/parsable"
