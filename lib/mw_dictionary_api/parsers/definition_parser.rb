@@ -28,17 +28,29 @@ module MWDictionaryAPI
 
       rule :text do |data, opts|
         dt_without_vi = data[:dt].dup
-        dt_without_vi.css("vi").remove
-        dt_without_vi.content.strip
+        if dt_without_vi.respond_to? :css
+          dt_without_vi.css("vi").remove
+          dt_without_vi.content.strip
+        else
+          ""
+        end
       end
 
       rule :verbal_illustration do |data, opts|
-        data[:dt].at_css("vi").content if data[:dt].at_css("vi")
+        if data[:dt].respond_to? :at_css
+          data[:dt].at_css("vi").content if data[:dt].at_css("vi")
+        else
+          ""
+        end
       end
 
       rule :cross_reference do |data, opts|
-        data[:dt].xpath("sx").inject([]) do |xrefs, sx|
-          xrefs << sx.content
+        if data[:dt].respond_to? :xpath
+          data[:dt].xpath("sx").inject([]) do |xrefs, sx|
+            xrefs << sx.content
+          end
+        else
+          []
         end
       end
     end

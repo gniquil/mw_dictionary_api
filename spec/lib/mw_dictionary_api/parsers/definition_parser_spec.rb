@@ -16,13 +16,13 @@ module MWDictionaryAPI
       let(:octopus_entry) { octopus_xml_doc.at_css("entry") }
       let(:one_collegiate_xml_doc) { Nokogiri::XML(File.open(fixture_path('one_collegiate.xml')).read) }
       let(:one_collegiate_entry) { one_collegiate_xml_doc.at_css("entry") }
-      
+
       let(:parser) { EntryParser.new }
 
       def parse(data)
         parser.parse(data)
       end
-        
+
       def apply_rule(*args)
         DefinitionParser.apply_rule(*args)
       end
@@ -72,7 +72,7 @@ module MWDictionaryAPI
           expect(definitions[0][:text]).to eq ":being a single unit or thing"
         end
       end
-    
+
     end
   end
 end

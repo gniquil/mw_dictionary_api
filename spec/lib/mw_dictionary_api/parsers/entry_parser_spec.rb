@@ -16,13 +16,15 @@ module MWDictionaryAPI
       let(:octopus_entry) { octopus_xml_doc.at_css("entry") }
       let(:one_collegiate_xml_doc) { Nokogiri::XML(File.open(fixture_path('one_collegiate.xml')).read) }
       let(:one_collegiate_entry) { one_collegiate_xml_doc.at_css("entry") }
-      
+
+      let(:shrift_collegiate_entry) { Nokogiri::XML(File.open(fixture_path('shrift_collegiate.xml')).read).at_css("entry") }
+
       let(:parser) { EntryParser.new }
 
       def parse(data)
         parser.parse(data)
       end
-        
+
       it "returns the word" do
         expect(parse(one_entry1)[:word]).to eq "one"
         expect(parse(one_entry2)[:word]).to eq "one"
@@ -57,7 +59,7 @@ module MWDictionaryAPI
         expect(parse(one_entry1)[:part_of_speech]).to eq "adjective"
       end
 
-      it "returns the name of sound file" do 
+      it "returns the name of sound file" do
         expect(parse(one_entry1)[:sound]).to eq "one00001.wav"
       end
 
@@ -68,9 +70,9 @@ module MWDictionaryAPI
 
         it "returns a list of inflections if available" do
           expect(inflections).to be_empty
-          expect(particularity_inflections).to eq([{ 
-            inflection_label: "plural", 
-            inflected_form: "particularities" 
+          expect(particularity_inflections).to eq([{
+            inflection_label: "plural",
+            inflected_form: "particularities"
           }])
           expect(octopus_inflections).to eq([
             { inflection_label: "plural", inflected_form: "octopuses" },
@@ -90,6 +92,13 @@ module MWDictionaryAPI
               { inflected_form: "funniest" }
             ])
           end
+        end
+      end
+
+      describe "definitions" do
+        it 'returns a list of definition pairs' do
+          definitions = parse(shrift_collegiate_entry)[:definitions]
+          expect(definitions.count).to eq 4
         end
       end
     end

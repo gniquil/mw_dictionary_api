@@ -1,4 +1,5 @@
 # encoding: UTF-8
+require 'ostruct'
 
 module MWDictionaryAPI
   module Parsers
@@ -38,14 +39,27 @@ module MWDictionaryAPI
       end
 
       rule :definitions do |data, opts|
-        # here we assume 
-        # 1. sense number (sn) alway appear before a definition (dt) in pairs
-        # 2. definition (dt) appear by itself
-        data.xpath("def//sn | def//dt").each_slice(2).inject([]) do |definitions, nodes|
-          hash = Hash[nodes.map {|n| n.name.to_sym}.zip(nodes.map {|n| (n.name == 'sn') ? n.content : n })]
+        nodes = data.xpath("def//sn | def//dt")
+
+        # first step we will add dummy nodes if the list of nodes is not
+        # strictly sn/dt pairs
+        nodes = add_dumy_nodes(nodes) if nodes.count % 2 != 0
+
+        # data.xpath("def//sn | def//dt")
+        nodes.each_slice(2).inject([]) do |definitions, nodes|
+          names = nodes.map { |n| n.name.to_sym }
+          values = nodes.map do |node|
+            if node.content
+              (node.name == 'sn') ? node.content : node
+            else
+              nil
+            end
+          end
+          hash = Hash[names.zip(values)]
           hash[:prev_sn] = definitions[-1][:sense_number] if definitions[-1]
           definitions << DefinitionParser.new(parser_options(opts)).parse(hash)
-        end  
+        end
+
       end
 
       rule :inflections do |data, opts|
@@ -80,6 +94,38 @@ module MWDictionaryAPI
 
         def parse_entity(data, tag)
           data.at_css(tag).content if data.at_css(tag)
+        end
+
+        def add_dumy_nodes(nodes)
+          temp = []
+          previous_sense_number = nil
+          nodes.each do |node|
+            if temp.count == 0
+              if node.name != 'sn'
+                temp << OpenStruct.new(name: 'sn', content: '0')
+                previous_sense_number = '0'
+              else
+                previous_sense_number = node.content
+              end
+              temp << node
+            else
+              if temp[-1].name == 'sn'
+                if node.name == 'sn'
+                  temp << OpenStruct.new(name: 'dt', content: '')
+                  previous_sense_number = node.content
+                end
+                temp << node
+              else
+                if node.name == 'dt'
+                  temp << OpenStruct.new(name: 'sn', content: previous_sense_number)
+                else
+                  previous_sense_number = node.content
+                end
+                temp << node
+              end
+            end
+          end
+          temp
         end
       end
     end

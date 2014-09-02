@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<entry_list version="1.0">
+    <entry id="shrift">
+        <ew>shrift</ew>
+        <subj>RC-1a</subj>
+        <hw>shrift</hw>
+        <sound>
+            <wav>shrift01.wav</wav>
+            <wpr>!shrift</wpr>
+        </sound>
+        <pr>ˈshrift,
+            <it>especially Southern</it> ˈsrift
+        </pr>
+        <fl>noun</fl>
+        <et>Middle English, from Old English
+            <it>scrift,</it> from
+            <it>scrīfan</it> to shrive
+            <ma>shrive</ma>
+        </et>
+        <def>
+            <date>before 12th century</date>
+            <sn>1</sn>
+            <ssl>archaic</ssl>
+            <sn>a</sn>
+            <dt>:a remission of sins pronounced by a priest in the sacrament of reconciliation</dt>
+            <sn>b</sn>
+            <dt>:the act of
+                <fw>shriving</fw> :
+                <sx>confession</sx>
+            </dt>
+            <sn>2</sn>
+            <ssl>obsolete</ssl>
+            <dt>:
+                <sx>confessional</sx>
+            </dt>
+        </def>
+    </entry>
+    <entry id="short shrift">
+        <ew>short shrift</ew>
+        <subj>SY-1</subj>
+        <hw>short shrift</hw>
+        <fl>noun</fl>
+        <def>
+            <date>1594</date>
+            <sn>1</sn>
+            <dt>:barely adequate time for confession before execution</dt>
+            <sn>2 a</sn>
+            <dt>:little or no attention or consideration
+                <vi>gave the problem
+                    <it>short shrift</it>
+                </vi>
+            </dt>
+            <sn>b</sn>
+            <dt>:quick work
+                <un>usually used in the phrase
+                    <it>make short shrift of</it>
+                </un>
+            </dt>
+        </def>
+    </entry>
+</entry_list>
