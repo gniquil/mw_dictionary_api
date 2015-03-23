@@ -26,6 +26,10 @@ module MWDictionaryAPI
         end
       end
 
+      rule :sense_divider do |data, opts|
+        data[:sense_divider] && data[:sense_divider].content
+      end
+
       rule :text do |data, opts|
         dt_without_vi = data[:dt].dup
         if dt_without_vi.respond_to? :css

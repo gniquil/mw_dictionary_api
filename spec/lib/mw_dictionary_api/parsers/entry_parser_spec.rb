@@ -110,6 +110,11 @@ module MWDictionaryAPI
             expect(definitions.count).to eq 7
           end
         end
+
+        it 'identifies sense dividers in adjacent definitions' do
+          definitions = parse(scant_collegiate_entry)[:definitions]
+          expect(definitions[4][:sense_divider]).to eq 'especially'
+        end
       end
     end
   end

@@ -40,6 +40,7 @@ module MWDictionaryAPI
 
       rule :definitions do |data, opts|
         nodes = data.xpath("def//sn | def//dt")
+        sd = nil
 
         # first step we will add dummy nodes if the list of nodes is not
         # strictly sn/dt pairs
@@ -57,6 +58,7 @@ module MWDictionaryAPI
           end
           hash = Hash[names.zip(values)]
           hash[:prev_sn] = definitions[-1][:sense_number] if definitions[-1]
+          hash[:sense_divider] = sd if sd = previous_sense_divider(nodes[1])
           definitions << DefinitionParser.new(parser_options(opts)).parse(hash)
         end
 
@@ -94,6 +96,14 @@ module MWDictionaryAPI
 
         def parse_entity(data, tag)
           data.at_css(tag).content if data.at_css(tag)
+        end
+
+        def previous_sense_divider(node)
+          if node.previous_element && node.previous_element.name == 'sd'
+            node.previous_element
+          else
+            nil
+          end
         end
 
         def add_dummy_nodes(nodes)
