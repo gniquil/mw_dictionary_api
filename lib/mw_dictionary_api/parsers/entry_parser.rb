@@ -43,7 +43,7 @@ module MWDictionaryAPI
 
         # first step we will add dummy nodes if the list of nodes is not
         # strictly sn/dt pairs
-        nodes = add_dumy_nodes(nodes) if nodes.count % 2 != 0
+        nodes = add_dummy_nodes(nodes)
 
         # data.xpath("def//sn | def//dt")
         nodes.each_slice(2).inject([]) do |definitions, nodes|
@@ -96,7 +96,7 @@ module MWDictionaryAPI
           data.at_css(tag).content if data.at_css(tag)
         end
 
-        def add_dumy_nodes(nodes)
+        def add_dummy_nodes(nodes)
           temp = []
           previous_sense_number = nil
           nodes.each do |node|

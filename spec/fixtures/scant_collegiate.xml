@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<entry_list version="1.0">
+  <entry id="scant[1]">
+    <ew>scant</ew>
+    <subj>DI-1</subj>
+    <hw hindex="1">scant</hw>
+    <sound>
+      <wav>scant001.wav</wav>
+      <wpr>!skant</wpr>
+    </sound>
+    <pr>ˈskant</pr>
+    <fl>adjective</fl>
+    <et>Middle English, from Old Norse 
+      <it>skamt,</it>
+      neuter of 
+      <it>skammr</it>
+      short</et>
+    <def>
+      <date>14th century</date>
+      <sn>1</sn>
+      <ssl>dialect</ssl>
+      <sn>a</sn>
+      <dt>:excessively frugal</dt>
+      <sn>b</sn>
+      <dt>:not prodigal :
+        <sx>chary</sx></dt>
+      <sn>2 a</sn>
+      <dt>:barely or scarcely sufficient</dt>
+      <sd>especially</sd>
+      <dt>:not quite coming up to a stated measure 
+        <vi>
+          a 
+          <it>scant</it>
+          teaspoon</vi>
+      </dt>
+      <sn>b</sn>
+      <dt>:lacking in amplitude or quantity 
+        <vi>
+          <it>scant</it>
+          growth</vi>
+      </dt>
+      <sn>3</sn>
+      <dt>:having a small or insufficient supply 
+        <vi>
+          he's fat, and 
+          <it>scant</it>
+          of breath 
+          <aq>Shakespeare</aq></vi>
+      </dt>
+      <ss>meager</ss>
+    </def>
+    <uro>
+      <ure>scant*ly</ure>
+      <fl>adverb</fl>
+    </uro>
+    <uro>
+      <ure>scant*ness</ure>
+      <fl>noun</fl>
+    </uro>
+  </entry>
+  <entry id="scant[2]">
+    <ew>scant</ew>
+    <subj>DI-1</subj>
+    <hw hindex="2">scant</hw>
+    <fl>adverb</fl>
+    <def>
+      <date>15th century</date>
+      <sl>dialect</sl>
+      <dt>:
+        <sx>scarcely</sx>
+        <sx>hardly</sx></dt>
+    </def>
+  </entry>
+  <entry id="scant[3]">
+    <ew>scant</ew>
+    <hw hindex="3">scant</hw>
+    <fl>verb</fl>
+    <def>
+      <vt>transitive verb</vt>
+      <date>circa 1580</date>
+      <sn>1</sn>
+      <dt>:to provide an incomplete supply of</dt>
+      <sn>2</sn>
+      <dt>:to make small, narrow, or meager</dt>
+      <sn>3</sn>
+      <dt>:to give scant attention to :
+        <sx>slight</sx></dt>
+      <sn>4</sn>
+      <dt>:to provide with a meager or inadequate portion or supply :
+        <sx>stint</sx></dt>
+    </def>
+  </entry>
+</entry_list>

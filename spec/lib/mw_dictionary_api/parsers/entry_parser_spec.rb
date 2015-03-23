@@ -18,6 +18,7 @@ module MWDictionaryAPI
       let(:one_collegiate_entry) { one_collegiate_xml_doc.at_css("entry") }
 
       let(:shrift_collegiate_entry) { Nokogiri::XML(File.open(fixture_path('shrift_collegiate.xml')).read).at_css("entry") }
+      let(:scant_collegiate_entry) { Nokogiri::XML(File.open(fixture_path('scant_collegiate.xml')).read).at_css("entry") }
 
       let(:parser) { EntryParser.new }
 
@@ -96,9 +97,18 @@ module MWDictionaryAPI
       end
 
       describe "definitions" do
-        it 'returns a list of definition pairs' do
-          definitions = parse(shrift_collegiate_entry)[:definitions]
-          expect(definitions.count).to eq 4
+        context "when there's an odd number of sense/definition pairs" do
+          it 'returns a list of definition pairs' do
+            definitions = parse(shrift_collegiate_entry)[:definitions]
+            expect(definitions.count).to eq 4
+          end
+        end
+
+        context "when there's a mismatched set of sense/definition pairs" do
+          it 'returns a list of definition pairs' do
+            definitions = parse(scant_collegiate_entry)[:definitions]
+            expect(definitions.count).to eq 7
+          end
         end
       end
     end
