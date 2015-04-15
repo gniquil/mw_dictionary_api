@@ -89,6 +89,18 @@ module MWDictionaryAPI
         inflections
       end
 
+      rule :undefined_run_ons do |data, opts|
+        data.xpath("uro").inject([]) do |uros, uro_node|
+          hash = {}
+          hash[:entry]          = parse_entity(uro_node, "ure")
+          hash[:sound]          = parse_entity(uro_node, "sound wav")
+          hash[:pronunciation]  = parse_entity(uro_node, "pr")
+          hash[:part_of_speech] = parse_entity(uro_node, "fl")
+
+          uros << hash
+        end
+      end
+
       rule_helpers do
         def parser_options(opts)
           { api_type: opts[:api_type], response_format: opts[:response_format] }
