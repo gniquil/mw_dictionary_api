@@ -40,10 +40,11 @@ module MWDictionaryAPI
 
       rule :definitions do |data, opts|
         nodes = data.xpath("def//sn | def//dt")
+        sd = nil
 
         # first step we will add dummy nodes if the list of nodes is not
         # strictly sn/dt pairs
-        nodes = add_dumy_nodes(nodes) if nodes.count % 2 != 0
+        nodes = add_dummy_nodes(nodes)
 
         # data.xpath("def//sn | def//dt")
         nodes.each_slice(2).inject([]) do |definitions, nodes|
@@ -57,6 +58,7 @@ module MWDictionaryAPI
           end
           hash = Hash[names.zip(values)]
           hash[:prev_sn] = definitions[-1][:sense_number] if definitions[-1]
+          hash[:sense_divider] = sd if sd = previous_sense_divider(nodes[1])
           definitions << DefinitionParser.new(parser_options(opts)).parse(hash)
         end
 
@@ -87,6 +89,18 @@ module MWDictionaryAPI
         inflections
       end
 
+      rule :undefined_run_ons do |data, opts|
+        data.xpath("uro").inject([]) do |uros, uro_node|
+          hash = {}
+          hash[:entry]          = parse_entity(uro_node, "ure")
+          hash[:sound]          = parse_entity(uro_node, "sound wav")
+          hash[:pronunciation]  = parse_entity(uro_node, "pr")
+          hash[:part_of_speech] = parse_entity(uro_node, "fl")
+
+          uros << hash
+        end
+      end
+
       rule_helpers do
         def parser_options(opts)
           { api_type: opts[:api_type], response_format: opts[:response_format] }
@@ -96,7 +110,15 @@ module MWDictionaryAPI
           data.at_css(tag).content if data.at_css(tag)
         end
 
-        def add_dumy_nodes(nodes)
+        def previous_sense_divider(node)
+          if node.previous_element && node.previous_element.name == 'sd'
+            node.previous_element
+          else
+            nil
+          end
+        end
+
+        def add_dummy_nodes(nodes)
           temp = []
           previous_sense_number = nil
           nodes.each do |node|

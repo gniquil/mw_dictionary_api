@@ -18,6 +18,9 @@ module MWDictionaryAPI
       let(:one_collegiate_entry) { one_collegiate_xml_doc.at_css("entry") }
 
       let(:shrift_collegiate_entry) { Nokogiri::XML(File.open(fixture_path('shrift_collegiate.xml')).read).at_css("entry") }
+      let(:scant_collegiate_entry) { Nokogiri::XML(File.open(fixture_path('scant_collegiate.xml')).read).at_css("entry") }
+
+      let(:insouciance_entry) { Nokogiri::XML(File.open(fixture_path('insouciance_collegiate.xml')).read).at_css("entry") }
 
       let(:parser) { EntryParser.new }
 
@@ -96,10 +99,40 @@ module MWDictionaryAPI
       end
 
       describe "definitions" do
-        it 'returns a list of definition pairs' do
-          definitions = parse(shrift_collegiate_entry)[:definitions]
-          expect(definitions.count).to eq 4
+        context "when there's an odd number of sense/definition pairs" do
+          it 'returns a list of definition pairs' do
+            definitions = parse(shrift_collegiate_entry)[:definitions]
+            expect(definitions.count).to eq 4
+          end
         end
+
+        context "when there's a mismatched set of sense/definition pairs" do
+          it 'returns a list of definition pairs' do
+            definitions = parse(scant_collegiate_entry)[:definitions]
+            expect(definitions.count).to eq 7
+          end
+        end
+
+        it 'identifies sense dividers in adjacent definitions' do
+          definitions = parse(scant_collegiate_entry)[:definitions]
+          expect(definitions[4][:sense_divider]).to eq 'especially'
+        end
+      end
+
+      describe "undefined_run_ons" do
+        let(:undefined_run_ons) { parse(one_entry1)[:undefined_run_ons] }
+        let(:insouciance_uros) { parse(insouciance_entry)[:undefined_run_ons] }
+
+        it "returns a list of run_ons if available" do
+          expect(undefined_run_ons).to be_empty
+
+          expect(insouciance_uros).to eq([
+            {:entry=>"in*sou*ci*ant", :sound=>"insouc03.wav",
+             :pronunciation=>"in-ˈsü-sē-ənt, aⁿ-süs-yäⁿ", :part_of_speech=>"adjective"},
+            {:entry=>"in*sou*ci*ant*ly", :sound=>"insouc04.wav",
+             :pronunciation=>"in-ˈsü-sē-ənt-lē", :part_of_speech=>"adverb"}])
+        end
+
       end
     end
   end
