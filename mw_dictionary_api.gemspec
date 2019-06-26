@@ -18,6 +18,6 @@ Gem::Specification.new do |s|
   ]
   s.homepage    = 'https://github.com/gniquil/mw_dictionary_api'
   s.license       = 'MIT'
-  s.add_runtime_dependency "nokogiri", "~> 1.6.0"
+  s.add_runtime_dependency "nokogiri", "~> 1.8.5"
   s.add_development_dependency "rspec", "~> 2.14.1"
 end
